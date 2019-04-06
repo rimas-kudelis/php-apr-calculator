@@ -1,0 +1,28 @@
+{
+    "name": "rq/aprc-calculator",
+    "description": "Annual Percentage Rate of Charge Calculator",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Stephen Haunts",
+            "homepage": "http://www.stephenhaunts.com"
+        },
+        {
+            "name": "Graham Johnson"
+        },
+        {
+            "name": "Rimas Kudelis",
+            "email": "rimas@kudelis.lt"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpspec/phpspec": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "RQ\\APRCCalculator\\": "src/"
+        }
+    }
+}
