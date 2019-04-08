@@ -4,6 +4,7 @@ namespace spec\RQ\APRCCalculator;
 
 use RQ\APRCCalculator\Calculator;
 use RQ\APRCCalculator\Instalment;
+use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -14,6 +15,11 @@ class CalculatorSpec extends ObjectBehavior
         $this->beConstructedWith(100); // Amount of first advance
     }
 
+    /**
+     * The examples below are ported directly from the C# library tests.
+     *
+     * @return void
+     */
     function it_is_initializable()
     {
         $this->shouldHaveType(Calculator::class);
@@ -162,5 +168,215 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(319.98, 16);
 
         $this->calculate()->shouldReturn(27875.8);
+    }
+
+    /**
+     * The ec_calculator_example_* tests are examples described in
+     * https://ec.europa.eu/info/system/files/aprc-examples-calculation_en.pdf
+     *
+     * @return void
+     */
+    function it_calculates_ec_calculator_example_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.434412);
+    }
+
+    function it_calculates_ec_calculator_example_2_case_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1433.57, 240, Instalment::FREQUENCY_MONTHLY, 3 + 31);
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.434185);
+    }
+
+    function it_calculates_ec_calculator_example_2_case_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1433.56, 240, Instalment::FREQUENCY_MONTHLY, 3 + 31);
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.434111);
+    }
+
+    function it_calculates_ec_calculator_example_2_case_3()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(16541.86, 20, Instalment::FREQUENCY_YEARLY, 3 + 31);
+
+        $this->calculate()->shouldReturn(6.3);
+        $this->calculate(0, 6)->shouldReturn(6.282070);
+    }
+
+    function it_calculates_ec_calculator_example_3()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1432.86 + round(200 / 12, 2), 240, Instalment::FREQUENCY_MONTHLY);
+
+        $this->calculate()->shouldReturn(6.6);
+        $this->calculate(0, 6)->shouldReturn(6.588554);
+    }
+
+    function it_calculates_ec_calculator_example_4()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1432.86 + round(200000 / 100 / 12, 2), 240, Instalment::FREQUENCY_MONTHLY);
+
+        $this->calculate()->shouldReturn(7.9);
+        $this->calculate(0, 6)->shouldReturn(7.946625);
+    }
+
+    function it_calculates_ec_calculator_example_5()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1490.18, 240, Instalment::FREQUENCY_MONTHLY);
+
+        $this->calculate()->shouldReturn(7.0);
+        $this->calculate(0, 6)->shouldReturn(6.961575);
+    }
+
+    function it_calculates_ec_calculator_example_6()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addInstalment(100, Instalment::DAYS_IN_YEAR * 20);
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.436359);
+    }
+
+    function it_calculates_ec_calculator_example_7()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1199.10, 180, Instalment::FREQUENCY_MONTHLY);
+        $this->addInstalment(142097.69, 15 * Instalment::DAYS_IN_YEAR);
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.409523);
+    }
+
+    function it_calculates_ec_calculator_example_8_part_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1166.67, 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addInstalment(200000, 20 * Instalment::DAYS_IN_YEAR);
+
+        $this->calculate()->shouldReturn(7.4);
+        $this->calculate(0, 6)->shouldReturn(7.430479);
+    }
+
+    function it_calculates_ec_calculator_example_8_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1166.67, 6, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1398.33, 234, Instalment::FREQUENCY_MONTHLY, 7 / 12 * Instalment::DAYS_IN_YEAR);
+        $this->addInstalment(200000, 20 * Instalment::DAYS_IN_YEAR);
+
+        $this->calculate()->shouldReturn(8.9);
+        $this->calculate(0, 6)->shouldReturn(8.869280);
+    }
+
+    function it_calculates_ec_calculator_example_9()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $instalmentAmount = 1130.33;
+        for ($year = 0; $year < 20; $year++) {
+            $this->addRegularInstalments(
+                round($instalmentAmount, 2),
+                12,
+                Instalment::FREQUENCY_MONTHLY,
+                Instalment::DAYS_IN_YEAR / 12 + Instalment::DAYS_IN_YEAR * $year
+            );
+            $instalmentAmount = $instalmentAmount * 1.03;
+        }
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.406400);
+    }
+
+    function it_calculates_ec_calculator_example_10()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $instalmentAmount = 1778.58;
+        for ($year = 0; $year < 20; $year++) {
+            $this->addRegularInstalments(
+                // It seems the EC-supplied calculation works by rounding the instalment amount
+                // at pay time, not at calculation time.
+                round($instalmentAmount, 2),
+                12,
+                Instalment::FREQUENCY_MONTHLY,
+                Instalment::DAYS_IN_YEAR / 12 + Instalment::DAYS_IN_YEAR * $year
+            );
+            $instalmentAmount = $instalmentAmount * 0.97;
+        }
+
+        $this->calculate()->shouldReturn(6.5);
+        $this->calculate(0, 6)->shouldReturn(6.468360);
+    }
+
+    function it_calculates_ec_calculator_example_11()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1500, 220, Instalment::FREQUENCY_MONTHLY);
+        $this->addInstalment(407.70, Instalment::DAYS_IN_YEAR / 12 * 221);
+
+        $this->calculate()->shouldReturn(6.5);
+        $this->calculate(0, 6)->shouldReturn(6.452756);
+    }
+
+    function it_calculates_ec_calculator_example_12()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+        $month = 1;
+        while ($owed > 0) {
+            $instalment = min(900, $owed);
+            $this->addInstalment(
+                $instalment + round($owed * 0.06 / 12, 2),
+                Instalment::DAYS_IN_YEAR / 12 * $month++
+            );
+            $owed -= $instalment;
+        }
+
+        $this->calculate()->shouldReturn(6.5);
+        $this->calculate(0, 6)->shouldReturn(6.492533);
+    }
+
+    function it_calculates_ec_calculator_example_13()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+        $month = 1;
+        while ($owed > 0) {
+            $instalment = min(200000 / 240, $owed);
+            $this->addInstalment(
+                round($instalment + $owed * 0.06 / 12, 2),
+                Instalment::DAYS_IN_YEAR / 12 * $month++
+            );
+            $owed -= $instalment;
+        }
+
+        $this->calculate()->shouldReturn(6.5);
+        $this->calculate(0, 6)->shouldReturn(6.476009);
     }
 }
