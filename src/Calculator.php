@@ -58,7 +58,7 @@ class Calculator
         );
     }
 
-    public function calculate(float $guess = 0): float
+    public function calculate(float $guess = 0, int $round = self::ROUND_PRECISION): float
     {
         $rateToTry = $guess / 100;
         $difference = 1;
@@ -90,7 +90,7 @@ class Calculator
             }
         }
 
-        return round($rateToTry * 100, self::ROUND_PRECISION);
+        return round($rateToTry * 100, $round);
     }
 
     public function addInstalment(
