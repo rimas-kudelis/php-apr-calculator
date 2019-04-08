@@ -36,7 +36,7 @@ class Instalment
     const FREQUENCY_FOUR_WEEKLY = 28;
     const FREQUENCY_MONTHLY = self::DAYS_IN_YEAR / 12;
     const FREQUENCY_QUARTERLY = self::DAYS_IN_YEAR / 4;
-    const FREQUENCY_ANNUALLY = self::DAYS_IN_YEAR;
+    const FREQUENCY_YEARLY = self::DAYS_IN_YEAR;
 
     const TYPE_PAYMENT = 0;
     const TYPE_ADVANCE = 1;
