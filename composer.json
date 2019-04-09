@@ -1,8 +1,8 @@
 {
-    "name": "rq/aprc-calculator",
-    "description": "Annual Percentage Rate of Charge Calculator",
+    "name": "rq/apr-calculator",
+    "description": "EU annual percentage rate of charge (APR or APRC) calculator",
     "type": "library",
-    "license": "GPL-3.0-or-later",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Stephen Haunts",
