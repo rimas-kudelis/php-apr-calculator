@@ -295,15 +295,16 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $instalmentAmount = 1130.33;
+        $instalment = 1130.33;
         for ($year = 0; $year < 20; $year++) {
             $this->addRegularInstalments(
-                round($instalmentAmount, 2),
+                round($instalment, 2),
                 12,
                 Instalment::FREQUENCY_MONTHLY,
                 Instalment::DAYS_IN_YEAR / 12 + Instalment::DAYS_IN_YEAR * $year
             );
-            $instalmentAmount = $instalmentAmount * 1.03;
+
+            $instalment = $instalment * 1.03;
         }
 
         $this->calculate()->shouldReturn(6.4);
@@ -314,17 +315,17 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $instalmentAmount = 1778.58;
+        $instalment = 1778.58;
         for ($year = 0; $year < 20; $year++) {
             $this->addRegularInstalments(
                 // It seems the EC-supplied calculation works by rounding the instalment amount
                 // at pay time, not at calculation time.
-                round($instalmentAmount, 2),
+                round($instalment, 2),
                 12,
                 Instalment::FREQUENCY_MONTHLY,
                 Instalment::DAYS_IN_YEAR / 12 + Instalment::DAYS_IN_YEAR * $year
             );
-            $instalmentAmount = $instalmentAmount * 0.97;
+            $instalment = $instalment * 0.97;
         }
 
         $this->calculate()->shouldReturn(6.5);
@@ -349,12 +350,14 @@ class CalculatorSpec extends ObjectBehavior
         $owed = 200000;
         $month = 1;
         while ($owed > 0) {
-            $instalment = min(900, $owed);
+            $repayment = min(900, $owed);
+            $interest = round($owed * 0.06 / 12, 2);
             $this->addInstalment(
-                $instalment + round($owed * 0.06 / 12, 2),
+                $repayment + $interest,
                 Instalment::DAYS_IN_YEAR / 12 * $month++
             );
-            $owed -= $instalment;
+
+            $owed -= $repayment;
         }
 
         $this->calculate()->shouldReturn(6.5);
@@ -366,17 +369,92 @@ class CalculatorSpec extends ObjectBehavior
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
         $owed = 200000;
-        $month = 1;
+        $month = 0;
+        $repayment = 200000 / 240;
+
         while ($owed > 0) {
-            $instalment = min(200000 / 240, $owed);
+            $interest = round($owed * 0.06 / 12, 2);
             $this->addInstalment(
-                round($instalment + $owed * 0.06 / 12, 2),
-                Instalment::DAYS_IN_YEAR / 12 * $month++
+                $repayment + $interest,
+                Instalment::DAYS_IN_YEAR / 12 * ++$month
             );
-            $owed -= $instalment;
+            $owed -= $repayment;
         }
 
         $this->calculate()->shouldReturn(6.5);
         $this->calculate(0, 6)->shouldReturn(6.476009);
+    }
+
+    function it_calculates_ec_calculator_example_14()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+        $month = 0;
+
+        while ($owed > 0) {
+            $repayment = min(max($owed * 0.02, 100), $owed);
+            $interest = $owed * 0.06 / 12;
+            $this->addInstalment(
+                round($repayment + $interest, 2),
+                Instalment::DAYS_IN_YEAR / 12 * ++$month
+            );
+            $owed -= $repayment;
+        }
+
+        $this->calculate()->shouldReturn(6.8);
+        $this->calculate(0, 6)->shouldReturn(6.818859);
+    }
+
+    function it_calculates_ec_calculator_example_15()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+        $month = 0;
+
+        while ($owed > 0) {
+            // The  credit  agreement provides  for  a  monthly  payment  of  2%  of  the
+            // outstanding balance of capital and interest with a minimum of €
+            $owed += $owed * 0.06 / 12;
+            $repayment = min(max($owed * 0.02, 300), $owed);
+            $this->addInstalment(
+                round($repayment, 2),
+                Instalment::DAYS_IN_YEAR / 12 * ++$month
+            );
+            $owed -= $repayment;
+        }
+
+        $this->calculate()->shouldReturn(6.7);
+        $this->calculate(0, 6)->shouldReturn(6.695965);
+    }
+
+    // The calculation for Example 16 is explained to be same as for Example 13.
+
+    function it_calculates_ec_calculator_example_17()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+        $month = 0;
+
+        for ($month = 1; $month < 12 * 15; $month++) {
+            $repayment = max($owed * 0.02, 100);
+            $interest = $owed * 0.06 / 12;
+            $this->addInstalment(
+                round($repayment + $interest, 2),
+                Instalment::DAYS_IN_YEAR / 12 * $month
+            );
+            $owed -= $repayment;
+        }
+
+        $interest = $owed * 0.06 / 12;
+        $this->addInstalment(
+            round($owed + $interest, 2),
+            Instalment::DAYS_IN_YEAR / 12 * $month
+        );
+
+        $this->calculate()->shouldReturn(6.8);
+        $this->calculate(0, 6)->shouldReturn(6.822923);
     }
 }
