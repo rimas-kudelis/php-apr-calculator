@@ -1,6 +1,6 @@
 <?php
 
-namespace RQ\APRCCalculator;
+namespace RQ\APRCalculator;
 
 use DomainException;
 

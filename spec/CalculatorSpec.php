@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\RQ\APRCCalculator;
+namespace spec\RQ\APRCalculator;
 
-use RQ\APRCCalculator\Calculator;
-use RQ\APRCCalculator\Instalment;
+use RQ\APRCalculator\Calculator;
+use RQ\APRCalculator\Instalment;
 use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

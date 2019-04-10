@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "RQ\\APRCCalculator\\": "src/"
+            "RQ\\APRCalculator\\": "src/"
         }
     }
 }

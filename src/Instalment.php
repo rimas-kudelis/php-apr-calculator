@@ -1,6 +1,6 @@
 <?php
 
-namespace RQ\APRCCalculator;
+namespace RQ\APRCalculator;
 
 /**
  * APR Calculator : Example of FCA Compliant APR Calculator.
