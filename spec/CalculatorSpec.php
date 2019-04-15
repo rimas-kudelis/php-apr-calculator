@@ -415,7 +415,7 @@ class CalculatorSpec extends ObjectBehavior
 
         while ($owed > 0) {
             // The  credit  agreement provides  for  a  monthly  payment  of  2%  of  the
-            // outstanding balance of capital and interest with a minimum of €
+            // outstanding balance of capital and interest with a minimum of €300
             $owed += $owed * 0.06 / 12;
             $repayment = min(max($owed * 0.02, 300), $owed);
             $this->addInstalment(
@@ -436,7 +436,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
         $owed = 200000;
-        $month = 0;
 
         for ($month = 1; $month < 12 * 15; $month++) {
             $repayment = max($owed * 0.02, 100);
@@ -456,5 +455,473 @@ class CalculatorSpec extends ObjectBehavior
 
         $this->calculate()->shouldReturn(6.8);
         $this->calculate(0, 6)->shouldReturn(6.822923);
+    }
+
+    function it_calculates_ec_calculator_example_18_case_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+
+        $this->addRegularInstalments(
+            1429.01,
+            240,
+            Instalment::FREQUENCY_MONTHLY,
+            14
+        );
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.435937);
+    }
+
+    function it_calculates_ec_calculator_example_18_case_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+
+        $this->addRegularInstalments(
+            1437.54,
+            240,
+            Instalment::FREQUENCY_MONTHLY,
+            20 + Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.432478);
+    }
+
+    function it_calculates_ec_calculator_example_19()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $owed = 200000;
+        $principal = $owed / 240;
+
+        for ($month = 1; $month <= 240; $month++) {
+            $interest = $owed * 0.06 / 12;
+            $instalment = round($principal + $interest, 2);
+            if (($month - 1) % 24 === 0) {
+                $instalment += 100;
+            }
+            $this->addInstalment(
+                $instalment,
+                Instalment::DAYS_IN_YEAR / 12 * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(6.5);
+        $this->calculate(0, 6)->shouldReturn(6.523259);
+    }
+
+    function it_calculates_ec_calculator_example_20()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1319.91,
+            24,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1423.41,
+            216,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 25
+        );
+
+        $this->calculate()->shouldReturn(6.2);
+        $this->calculate(0, 6)->shouldReturn(6.190654);
+    }
+
+    function it_calculates_ec_calculator_example_21_part_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1319.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1374.06,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        $this->calculate()->shouldReturn(5.9);
+        $this->calculate(0, 6)->shouldReturn(5.853526);
+    }
+
+    function it_calculates_ec_calculator_example_21_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1319.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1530.61,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        $this->calculate()->shouldReturn(7.2);
+        $this->calculate(0, 6)->shouldReturn(7.199734);
+    }
+
+    function it_calculates_ec_calculator_example_22_case_1_part_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1349.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1404.06,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        $this->calculate()->shouldReturn(6.1);
+        $this->calculate(0, 6)->shouldReturn(6.134668);
+    }
+
+    function it_calculates_ec_calculator_example_22_case_1_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1349.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1515.81,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        $this->calculate()->shouldReturn(7.1);
+        $this->calculate(0, 6)->shouldReturn(7.093592);
+    }
+
+    function it_calculates_ec_calculator_example_22_case_2_part_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1339.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1394.06,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        // NOTE: there seems to be a typo in the document
+        // as it says the APR here will be 6.1.
+        $this->calculate()->shouldReturn(6.0);
+        $this->calculate(0, 6)->shouldReturn(6.041228);
+    }
+
+    function it_calculates_ec_calculator_example_22_case_2_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1339.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1550.61,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        $this->calculate()->shouldReturn(7.4);
+        $this->calculate(0, 6)->shouldReturn(7.379073);
+    }
+
+    function it_calculates_ec_calculator_example_23_part_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1319.91,
+            240,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->calculate()->shouldReturn(5.4);
+        $this->calculate(0, 6)->shouldReturn(5.370286);
+    }
+
+    function it_calculates_ec_calculator_example_23_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1319.91,
+            9,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1578.43,
+            231,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 10
+        );
+
+        $this->calculate()->shouldReturn(7.6);
+        $this->calculate(0, 6)->shouldReturn(7.597578);
+    }
+
+    // The calculation for Example 24 part 1 is same as for Example 23 part 1.
+
+    function it_calculates_ec_calculator_example_24_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1319.91,
+            60,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addInstalment(
+            166909.73,
+            Instalment::DAYS_IN_YEAR * 5
+        );
+
+        $this->calculate()->shouldReturn(5.6);
+        $this->calculate(0, 6)->shouldReturn(5.635609);
+    }
+
+    // The calculation for Example 25 is same as for Example 23 part 2.
+
+    function it_calculates_ec_calculator_example_26_part_1()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1660.94,
+            180,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->calculate()->shouldReturn(6.2);
+        $this->calculate(0, 6)->shouldReturn(6.237362);
+    }
+
+    function it_calculates_ec_calculator_example_26_part_2()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+
+        $this->addRegularInstalments(
+            1660.94,
+            6,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            1734.38,
+            174,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 7
+        );
+
+        $this->calculate()->shouldReturn(6.9);
+        $this->calculate(0, 6)->shouldReturn(6.925014);
+    }
+
+    function it_calculates_ec_calculator_example_27()
+    {
+        $this->beConstructedWith(170000);
+        $this->addInstalment(3400, 0);
+
+        $this->addRegularInstalments(
+            1217.93,
+            240,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->calculate()->shouldReturn(6.4);
+        $this->calculate(0, 6)->shouldReturn(6.434402);
+    }
+
+    function it_calculates_ec_calculator_example_28()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000 * 1.002, 0);
+
+        $this->addRegularInstalments(
+            round(1319.91 * 1.002, 2),
+            240,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->calculate()->shouldReturn(5.4);
+        $this->calculate(0, 6)->shouldReturn(5.396096);
+    }
+
+    function it_calculates_ec_calculator_example_29()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000 * 1.002, 0);
+
+        $this->addRegularInstalments(
+            round(1349.91 * 1.002, 2),
+            240,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->calculate()->shouldReturn(5.7);
+        $this->calculate(0, 6)->shouldReturn(5.682613);
+    }
+
+    function it_calculates_ec_calculator_example_30_part_1()
+    {
+        $this->beConstructedWith(30000);
+        $this->addInstalment(600, 0);
+
+        $this->addRegularInstalments(
+            169.62,
+            60,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $owed = 30000;
+        $principal = $owed / 120;
+        for ($month = 61; $month <= 180; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(7.3);
+        $this->calculate(0, 6)->shouldReturn(7.302956);
+    }
+
+    function it_calculates_ec_calculator_example_30_part_2()
+    {
+        $this->beConstructedWith(30000);
+        $this->addInstalment(600, 0);
+
+        $this->addRegularInstalments(
+            169.62,
+            6,
+            Instalment::FREQUENCY_MONTHLY
+        );
+
+        $this->addRegularInstalments(
+            202.09,
+            54,
+            Instalment::FREQUENCY_MONTHLY,
+            Instalment::FREQUENCY_MONTHLY * 7
+        );
+
+        $owed = 30000;
+        $principal = $owed / 120;
+
+        for ($month = 61; $month <= 180; $month++) {
+            $interest = $owed * (pow(1.0839, 1 / 12) - 1);
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(8.6);
+        $this->calculate(0, 6)->shouldReturn(8.61132);
+    }
+
+    function it_calculates_ec_calculator_example_31_part_1()
+    {
+        $this->beConstructedWith(30000);
+        $this->addInstalment(600, 0);
+
+        $owed = 30000;
+        $principal = $owed / 12;
+
+        for ($month = 1; $month <= 12; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(11.2);
+        $this->calculate(0, 6)->shouldReturn(11.164789);
+    }
+
+    function it_calculates_ec_calculator_example_31_part_2()
+    {
+        $this->beConstructedWith(30000);
+        $this->addInstalment(600, 0);
+
+        $owed = 30000;
+        $principal = $owed / 12;
+
+        for ($month = 1; $month <= 6; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        for ($month = 7; $month <= 12; $month++) {
+            $interest = $owed * (pow(1.0839, 1 / 12) - 1);
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(11.5);
+        $this->calculate(0, 6)->shouldReturn(11.542158);
     }
 }
