@@ -924,4 +924,147 @@ class CalculatorSpec extends ObjectBehavior
         $this->calculate()->shouldReturn(11.5);
         $this->calculate(0, 6)->shouldReturn(11.542158);
     }
+
+    function it_calculates_ec_calculator_example_32_part_1()
+    {
+        $this->beConstructedWith(7500);
+
+        $owed = 7500;
+        $principal = 7500 / 12;
+
+        for ($month = 1; $month <= 3; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            // echo round($principal + $interest, 2) . PHP_EOL;
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->addInstalment(
+            7500,
+            Instalment::FREQUENCY_MONTHLY * 3,
+            Instalment::TYPE_ADVANCE
+        );
+
+        $owed += 7500;
+        $principal += 7500 / 9;
+
+        for ($month = 4; $month <= 6; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            // echo round($principal + $interest, 2) . PHP_EOL;
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->addInstalment(
+            15000,
+            Instalment::FREQUENCY_MONTHLY * 6,
+            Instalment::TYPE_ADVANCE
+        );
+
+        $owed += 15000;
+        $principal += 15000 / 6;
+
+        for ($month = 7; $month <= 12; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            // echo round($principal + $interest, 2) . PHP_EOL;
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(13.1);
+        $this->calculate(0, 6)->shouldReturn(13.063818);
+    }
+
+    function it_calculates_ec_calculator_example_32_part_2()
+    {
+        $this->beConstructedWith(7500);
+
+        $owed = 7500;
+        $principal = 7500 / 12;
+
+        for ($month = 1; $month <= 3; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            // echo round($principal + $interest, 2) . PHP_EOL;
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->addInstalment(
+            7500,
+            Instalment::FREQUENCY_MONTHLY * 3,
+            Instalment::TYPE_ADVANCE
+        );
+
+        $owed += 7500;
+        $principal += 7500 / 9;
+
+        for ($month = 4; $month <= 6; $month++) {
+            $interest = $owed * (pow(1.07, 1 / 12) - 1);
+            // echo round($principal + $interest, 2) . PHP_EOL;
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->addInstalment(
+            15000,
+            Instalment::FREQUENCY_MONTHLY * 6,
+            Instalment::TYPE_ADVANCE
+        );
+
+        $owed += 15000;
+        $principal += 15000 / 6;
+
+        for ($month = 7; $month <= 12; $month++) {
+            $interest = $owed * (pow(1.0839, 1 / 12) - 1);
+            // echo round($principal + $interest, 2) . PHP_EOL;
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(13.9);
+        $this->calculate(0, 6)->shouldReturn(13.945824);
+    }
+
+    // The calculation for Example 33 part 1 is explained to be same as for Example 31 part 1.
+
+    function it_calculates_ec_calculator_example_33_part_2()
+    {
+        $this->beConstructedWith(30000);
+        $this->addInstalment(600, 0);
+
+        $owed = 30000;
+        $principal = $owed / 12;
+
+        for ($month = 1; $month <= 12; $month++) {
+            $interest = $owed * (pow(1.0839, 1 / 12) - 1);
+            $this->addInstalment(
+                round($principal + $interest, 2),
+                Instalment::FREQUENCY_MONTHLY * $month
+            );
+            $owed -= $principal;
+        }
+
+        $this->calculate()->shouldReturn(12.6);
+        // The document says this is 12.625685, but it seems our
+        // calculations are even more precise than those in the document.
+        $this->calculate(0, 6)->shouldReturn(12.625687);
+    }
 }
