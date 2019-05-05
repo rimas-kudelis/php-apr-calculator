@@ -62,31 +62,23 @@ class Calculator
     {
         $rateToTry = $guess / 100;
         $difference = 1;
-        $amountToAdd = self::INITIAL_GUESS_INCREMENT;
+        $previousTriedRate = 0;
+        $increment = self::INITIAL_GUESS_INCREMENT;
 
         while (true) {
-            $advances = $payments = 0;
-
-            foreach ($this->advances as $advance) {
-                $advances += $advance->calculate($rateToTry);
-            }
-
-            foreach ($this->payments as $payment) {
-                $payments += $payment->calculate($rateToTry);
-            }
-
-            $difference = $payments - $advances;
+            $difference = $this->calculateEquationErrorForRate($rateToTry);
 
             if (abs($difference) <= self::FINANCE_PRECISION) {
                 break;
             }
 
             if ($difference > 0) {
-                $amountToAdd = $amountToAdd * 2;
-                $rateToTry = $rateToTry + $amountToAdd;
+                $increment = $increment * 2;
+                $previousTriedRate = $rateToTry;
+                $rateToTry = $rateToTry + $increment;
             } else {
-                $amountToAdd = $amountToAdd / 2;
-                $rateToTry = $rateToTry - $amountToAdd;
+                $rateToTry = $this->calculateBetweenPositiveAndNegativeEquationErrors($previousTriedRate, $rateToTry);
+                break;
             }
         }
 
@@ -123,5 +115,34 @@ class Calculator
         for ($i = 0; $i < $numberOfInstalments; $i++) {
             $this->addInstalment($amount, $daysAfterFirstAdvance + $daysBetweenAdvances * $i);
         }
+    }
+
+    protected function calculateBetweenPositiveAndNegativeEquationErrors($lowRate, $highRate): float
+    {
+        $rateToTry = ($lowRate + $highRate) / 2;
+        $error = $this->calculateEquationErrorForRate($rateToTry);
+
+        if (abs($error) <= static::FINANCE_PRECISION) {
+            return $rateToTry;
+        } elseif ($error < 0) {
+            return $this->calculateBetweenPositiveAndNegativeEquationErrors($lowRate, $rateToTry);
+        } else {
+            return $this->calculateBetweenPositiveAndNegativeEquationErrors($rateToTry, $highRate);
+        }
+    }
+
+    protected function calculateEquationErrorForRate($rate): float
+    {
+        $advancesComponent = $paymentsComponent = 0;
+
+        foreach ($this->advances as $advance) {
+            $advancesComponent += $advance->calculate($rate);
+        }
+
+        foreach ($this->payments as $payment) {
+            $paymentsComponent += $payment->calculate($rate);
+        }
+
+        return $paymentsComponent - $advancesComponent;
     }
 }
