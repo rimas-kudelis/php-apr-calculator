@@ -116,7 +116,7 @@ class Calculator
         }
     }
 
-    protected function calculateBetweenValues($lowRate, $highRate): float
+    protected function calculateBetweenValues(float $lowRate, float $highRate): float
     {
         $rateToTry = ($lowRate + $highRate) / 2;
         $error = $this->calculateEquationErrorForRate($rateToTry);
@@ -130,7 +130,7 @@ class Calculator
         }
     }
 
-    protected function calculateEquationErrorForRate($rate): float
+    protected function calculateEquationErrorForRate(float $rate): float
     {
         $advancesComponent = $paymentsComponent = 0;
 
