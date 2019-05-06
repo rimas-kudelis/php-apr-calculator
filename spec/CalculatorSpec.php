@@ -183,6 +183,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(6.4);
+    }
+
+    function it_calculates_ec_calculator_example_1_with_arbitrary_precision()
+    {
+        $this->beConstructedWith(200000);
+        $this->addInstalment(4000, 0);
+        $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
+
         $this->calculate(0, 6)->shouldReturn(6.434412);
     }
 
@@ -193,7 +201,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(1433.57, 240, Instalment::FREQUENCY_MONTHLY, 3 + 31);
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.434185);
     }
 
     function it_calculates_ec_calculator_example_2_case_2()
@@ -203,7 +210,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(1433.56, 240, Instalment::FREQUENCY_MONTHLY, 3 + 31);
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.434111);
     }
 
     function it_calculates_ec_calculator_example_2_case_3()
@@ -213,7 +219,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(16541.86, 20, Instalment::FREQUENCY_YEARLY, 3 + 31);
 
         $this->calculate()->shouldReturn(6.3);
-        $this->calculate(0, 6)->shouldReturn(6.282070);
     }
 
     function it_calculates_ec_calculator_example_3()
@@ -223,7 +228,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(1432.86 + round(200 / 12, 2), 240, Instalment::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(6.6);
-        $this->calculate(0, 6)->shouldReturn(6.588554);
     }
 
     function it_calculates_ec_calculator_example_4()
@@ -233,7 +237,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(1432.86 + round(200000 / 100 / 12, 2), 240, Instalment::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(7.9);
-        $this->calculate(0, 6)->shouldReturn(7.946625);
     }
 
     function it_calculates_ec_calculator_example_5()
@@ -243,7 +246,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(1490.18, 240, Instalment::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(7.0);
-        $this->calculate(0, 6)->shouldReturn(6.961575);
     }
 
     function it_calculates_ec_calculator_example_6()
@@ -254,7 +256,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(100, Instalment::DAYS_IN_YEAR * 20);
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.436359);
     }
 
     function it_calculates_ec_calculator_example_7()
@@ -265,7 +266,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(142097.69, 15 * Instalment::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.409523);
     }
 
     function it_calculates_ec_calculator_example_8_part_1()
@@ -276,7 +276,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(200000, 20 * Instalment::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(7.4);
-        $this->calculate(0, 6)->shouldReturn(7.430479);
     }
 
     function it_calculates_ec_calculator_example_8_part_2()
@@ -288,7 +287,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(200000, 20 * Instalment::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(8.9);
-        $this->calculate(0, 6)->shouldReturn(8.869280);
     }
 
     function it_calculates_ec_calculator_example_9()
@@ -308,7 +306,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.406400);
     }
 
     function it_calculates_ec_calculator_example_10()
@@ -329,7 +326,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.5);
-        $this->calculate(0, 6)->shouldReturn(6.468360);
     }
 
     function it_calculates_ec_calculator_example_11()
@@ -340,7 +336,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(407.70, Instalment::DAYS_IN_YEAR / 12 * 221);
 
         $this->calculate()->shouldReturn(6.5);
-        $this->calculate(0, 6)->shouldReturn(6.452756);
     }
 
     function it_calculates_ec_calculator_example_12()
@@ -361,7 +356,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.5);
-        $this->calculate(0, 6)->shouldReturn(6.492533);
     }
 
     function it_calculates_ec_calculator_example_13()
@@ -382,7 +376,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.5);
-        $this->calculate(0, 6)->shouldReturn(6.476009);
     }
 
     function it_calculates_ec_calculator_example_14()
@@ -403,7 +396,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.8);
-        $this->calculate(0, 6)->shouldReturn(6.818859);
     }
 
     function it_calculates_ec_calculator_example_15()
@@ -426,7 +418,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.7);
-        $this->calculate(0, 6)->shouldReturn(6.695965);
     }
 
     // The calculation for Example 16 is explained to be same as for Example 13.
@@ -454,7 +445,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.8);
-        $this->calculate(0, 6)->shouldReturn(6.822923);
     }
 
     function it_calculates_ec_calculator_example_18_case_1()
@@ -471,7 +461,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.435937);
     }
 
     function it_calculates_ec_calculator_example_18_case_2()
@@ -488,7 +477,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.432478);
     }
 
     function it_calculates_ec_calculator_example_19()
@@ -512,7 +500,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(6.5);
-        $this->calculate(0, 6)->shouldReturn(6.523259);
     }
 
     function it_calculates_ec_calculator_example_20()
@@ -534,7 +521,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.2);
-        $this->calculate(0, 6)->shouldReturn(6.190654);
     }
 
     function it_calculates_ec_calculator_example_21_part_1()
@@ -556,7 +542,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(5.9);
-        $this->calculate(0, 6)->shouldReturn(5.853526);
     }
 
     function it_calculates_ec_calculator_example_21_part_2()
@@ -578,7 +563,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(7.2);
-        $this->calculate(0, 6)->shouldReturn(7.199734);
     }
 
     function it_calculates_ec_calculator_example_22_case_1_part_1()
@@ -600,7 +584,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.1);
-        $this->calculate(0, 6)->shouldReturn(6.134668);
     }
 
     function it_calculates_ec_calculator_example_22_case_1_part_2()
@@ -622,7 +605,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(7.1);
-        $this->calculate(0, 6)->shouldReturn(7.093592);
     }
 
     function it_calculates_ec_calculator_example_22_case_2_part_1()
@@ -646,7 +628,6 @@ class CalculatorSpec extends ObjectBehavior
         // NOTE: there seems to be a typo in the document
         // as it says the APR here will be 6.1.
         $this->calculate()->shouldReturn(6.0);
-        $this->calculate(0, 6)->shouldReturn(6.041228);
     }
 
     function it_calculates_ec_calculator_example_22_case_2_part_2()
@@ -668,7 +649,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(7.4);
-        $this->calculate(0, 6)->shouldReturn(7.379073);
     }
 
     function it_calculates_ec_calculator_example_23_part_1()
@@ -683,7 +663,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(5.4);
-        $this->calculate(0, 6)->shouldReturn(5.370286);
     }
 
     function it_calculates_ec_calculator_example_23_part_2()
@@ -705,7 +684,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(7.6);
-        $this->calculate(0, 6)->shouldReturn(7.597578);
     }
 
     // The calculation for Example 24 part 1 is same as for Example 23 part 1.
@@ -727,7 +705,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(5.6);
-        $this->calculate(0, 6)->shouldReturn(5.635609);
     }
 
     // The calculation for Example 25 is same as for Example 23 part 2.
@@ -744,7 +721,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.2);
-        $this->calculate(0, 6)->shouldReturn(6.237362);
     }
 
     function it_calculates_ec_calculator_example_26_part_2()
@@ -766,7 +742,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.9);
-        $this->calculate(0, 6)->shouldReturn(6.925014);
     }
 
     function it_calculates_ec_calculator_example_27()
@@ -781,7 +756,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(6.4);
-        $this->calculate(0, 6)->shouldReturn(6.434402);
     }
 
     function it_calculates_ec_calculator_example_28()
@@ -796,7 +770,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(5.4);
-        $this->calculate(0, 6)->shouldReturn(5.396096);
     }
 
     function it_calculates_ec_calculator_example_29()
@@ -811,7 +784,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(5.7);
-        $this->calculate(0, 6)->shouldReturn(5.682613);
     }
 
     function it_calculates_ec_calculator_example_30_part_1()
@@ -837,7 +809,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(7.3);
-        $this->calculate(0, 6)->shouldReturn(7.302956);
     }
 
     function it_calculates_ec_calculator_example_30_part_2()
@@ -871,7 +842,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(8.6);
-        $this->calculate(0, 6)->shouldReturn(8.61132);
     }
 
     function it_calculates_ec_calculator_example_31_part_1()
@@ -892,7 +862,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(11.2);
-        $this->calculate(0, 6)->shouldReturn(11.164789);
     }
 
     function it_calculates_ec_calculator_example_31_part_2()
@@ -922,7 +891,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(11.5);
-        $this->calculate(0, 6)->shouldReturn(11.542158);
     }
 
     function it_calculates_ec_calculator_example_32_part_1()
@@ -981,7 +949,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(13.1);
-        $this->calculate(0, 6)->shouldReturn(13.063818);
     }
 
     function it_calculates_ec_calculator_example_32_part_2()
@@ -1040,7 +1007,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(13.9);
-        $this->calculate(0, 6)->shouldReturn(13.945824);
     }
 
     // The calculation for Example 33 part 1 is explained to be same as for Example 31 part 1.
@@ -1063,9 +1029,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(12.6);
-        // The document says this is 12.625685, but it seems our
-        // calculations are even more precise than those in the document.
-        $this->calculate(0, 6)->shouldReturn(12.625687);
     }
 
     function it_calculates_ec_calculator_example_34()
@@ -1103,9 +1066,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(11.4);
-        // Again, the document specifies 11.415822, but this is close enough to just assume
-        // a difference in precision of calculations.
-        $this->calculate(0, 6)->shouldReturn(11.415821);
     }
 
     function it_calculates_ec_example_35()
@@ -1116,8 +1076,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(3000, Instalment::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(5.6);
-        // Again, the document specifies 5.583621, but our calculation is more precise.
-        $this->calculate(0, 6)->shouldReturn(5.583645);
     }
 
     function it_calculates_ec_example_36()
@@ -1139,9 +1097,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(15.1);
-        // Again, the document specifies 15.10627, but this is close enough to just assume
-        // a difference in precision of calculations.
-        $this->calculate(0, 6)->shouldReturn(15.10631);
     }
 
     function it_calculates_ec_example_37()
@@ -1163,9 +1118,6 @@ class CalculatorSpec extends ObjectBehavior
         }
 
         $this->calculate()->shouldReturn(17.0);
-        // Again, the document specifies 16.991403, but this is close enough to just assume
-        // a difference in precision of calculations.
-        $this->calculate(0, 6)->shouldReturn(16.991553);
     }
 
     function it_calculates_ec_example_38()
@@ -1180,9 +1132,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(3000, Instalment::FREQUENCY_MONTHLY * 3);
 
         $this->calculate()->shouldReturn(19.4);
-        // Again, the document specifies 19.429412, but this is close enough to just assume
-        // a difference in precision of calculations.
-        $this->calculate(0, 6)->shouldReturn(19.429575);
     }
 
     function it_calculates_ec_example_39()
@@ -1195,9 +1144,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(13.5);
-        // Again, the document specifies 13.494231, but this is close enough to just assume
-        // a difference in precision of calculations.
-        $this->calculate(0, 6)->shouldReturn(13.494236);
     }
 
     function it_calculates_ec_example_40()
@@ -1207,7 +1153,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(207618.17, Instalment::FREQUENCY_MONTHLY * 6);
 
         $this->calculate()->shouldReturn(12.2);
-        $this->calculate(0, 6)->shouldReturn(12.206644);
     }
 
     function it_calculates_ec_example_41()
@@ -1218,9 +1163,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(200000, Instalment::FREQUENCY_MONTHLY * 6);
 
         $this->calculate()->shouldReturn(12.6);
-        // Again, the document specifies 12.573788, but this is close enough to just assume
-        // a difference in precision of calculations.
-        $this->calculate(0, 6)->shouldReturn(12.573789);
     }
 
     function it_calculates_ec_example_42()
@@ -1235,7 +1177,6 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(200000, Instalment::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(10.0);
-        $this->calculate(0, 6)->shouldReturn(10.039962);
     }
 
     function it_calculates_ec_example_43()
@@ -1250,7 +1191,6 @@ class CalculatorSpec extends ObjectBehavior
         );
 
         $this->calculate()->shouldReturn(8.3);
-        $this->calculate(0, 6)->shouldReturn(8.269278);
     }
 
     function it_calculates_ec_example_44()
@@ -1271,6 +1211,5 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(32075.08, Instalment::FREQUENCY_MONTHLY * 180);
 
         $this->calculate()->shouldReturn(3.5);
-        $this->calculate(0, 6)->shouldReturn(3.470057);
     }
 }
