@@ -30,7 +30,7 @@ use DomainException;
  */
 class Calculator
 {
-    const ROUND_PRECISION = 1;
+    const DEFAULT_PRECISION = 1;
     const INITIAL_GUESS_INCREMENT = 0.0001;
     const FINANCE_PRECISION = 0.0000001;
 
@@ -45,7 +45,7 @@ class Calculator
         $this->advances[] = new Instalment($firstAdvance, 0);
     }
 
-    public function calculateForSinglePayment(float $payment, int $daysAfterAdvance, int $round = self::ROUND_PRECISION): float
+    public function calculateForSinglePayment(float $payment, int $daysAfterAdvance, int $round = self::DEFAULT_PRECISION): float
     {
         return round(
             (
@@ -58,7 +58,7 @@ class Calculator
         );
     }
 
-    public function calculate(float $guess = 0, int $round = self::ROUND_PRECISION): float
+    public function calculate(float $guess = 0, int $round = self::DEFAULT_PRECISION): float
     {
         $rateToTry = $guess / 100;
         $difference = 1;
