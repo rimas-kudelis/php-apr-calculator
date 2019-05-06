@@ -45,7 +45,7 @@ class Calculator
         $this->advances[] = new Instalment($firstAdvance, 0);
     }
 
-    public function calculateForSinglePayment(float $payment, int $daysAfterAdvance): float
+    public function calculateForSinglePayment(float $payment, int $daysAfterAdvance, int $round = self::ROUND_PRECISION): float
     {
         return round(
             (
@@ -54,7 +54,7 @@ class Calculator
                     (-Instalment::DAYS_IN_YEAR / $daysAfterAdvance)
                 ) - 1
             ) * 100,
-            self::ROUND_PRECISION
+            $round
         );
     }
 
