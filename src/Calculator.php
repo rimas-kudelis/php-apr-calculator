@@ -61,18 +61,17 @@ class Calculator
     public function calculate(float $guess = 0, int $round = self::DEFAULT_PRECISION): float
     {
         $rateToTry = $guess / 100;
-        $difference = 1;
         $previousTriedRate = 0;
         $increment = self::INITIAL_GUESS_INCREMENT;
 
         while (true) {
-            $difference = $this->calculateEquationErrorForRate($rateToTry);
+            $error = $this->calculateEquationErrorForRate($rateToTry);
 
-            if (abs($difference) <= self::FINANCE_PRECISION) {
+            if (abs($error) <= self::FINANCE_PRECISION) {
                 break;
             }
 
-            if ($difference > 0) {
+            if ($error > 0) {
                 $increment = $increment * 2;
                 $previousTriedRate = $rateToTry;
                 $rateToTry = $rateToTry + $increment;
