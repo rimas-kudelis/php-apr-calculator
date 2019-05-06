@@ -896,13 +896,13 @@ class CalculatorSpec extends ObjectBehavior
     function it_calculates_ec_calculator_example_32_part_1()
     {
         $this->beConstructedWith(7500);
+        $this->addInstalment(600, 0);
 
         $owed = 7500;
         $principal = 7500 / 12;
 
         for ($month = 1; $month <= 3; $month++) {
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
-            // echo round($principal + $interest, 2) . PHP_EOL;
             $this->addInstalment(
                 round($principal + $interest, 2),
                 Instalment::FREQUENCY_MONTHLY * $month
@@ -921,7 +921,6 @@ class CalculatorSpec extends ObjectBehavior
 
         for ($month = 4; $month <= 6; $month++) {
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
-            // echo round($principal + $interest, 2) . PHP_EOL;
             $this->addInstalment(
                 round($principal + $interest, 2),
                 Instalment::FREQUENCY_MONTHLY * $month
@@ -940,7 +939,6 @@ class CalculatorSpec extends ObjectBehavior
 
         for ($month = 7; $month <= 12; $month++) {
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
-            // echo round($principal + $interest, 2) . PHP_EOL;
             $this->addInstalment(
                 round($principal + $interest, 2),
                 Instalment::FREQUENCY_MONTHLY * $month
@@ -954,13 +952,13 @@ class CalculatorSpec extends ObjectBehavior
     function it_calculates_ec_calculator_example_32_part_2()
     {
         $this->beConstructedWith(7500);
+        $this->addInstalment(600, 0);
 
         $owed = 7500;
         $principal = 7500 / 12;
 
         for ($month = 1; $month <= 3; $month++) {
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
-            // echo round($principal + $interest, 2) . PHP_EOL;
             $this->addInstalment(
                 round($principal + $interest, 2),
                 Instalment::FREQUENCY_MONTHLY * $month
@@ -979,7 +977,6 @@ class CalculatorSpec extends ObjectBehavior
 
         for ($month = 4; $month <= 6; $month++) {
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
-            // echo round($principal + $interest, 2) . PHP_EOL;
             $this->addInstalment(
                 round($principal + $interest, 2),
                 Instalment::FREQUENCY_MONTHLY * $month
@@ -998,7 +995,6 @@ class CalculatorSpec extends ObjectBehavior
 
         for ($month = 7; $month <= 12; $month++) {
             $interest = $owed * (pow(1.0839, 1 / 12) - 1);
-            // echo round($principal + $interest, 2) . PHP_EOL;
             $this->addInstalment(
                 round($principal + $interest, 2),
                 Instalment::FREQUENCY_MONTHLY * $month
