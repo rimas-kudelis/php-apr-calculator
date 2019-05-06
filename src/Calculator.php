@@ -77,7 +77,7 @@ class Calculator
                 $previousTriedRate = $rateToTry;
                 $rateToTry = $rateToTry + $increment;
             } else {
-                $rateToTry = $this->calculateBetweenPositiveAndNegativeEquationErrors($previousTriedRate, $rateToTry);
+                $rateToTry = $this->calculateBetweenValues($previousTriedRate, $rateToTry);
                 break;
             }
         }
@@ -117,7 +117,7 @@ class Calculator
         }
     }
 
-    protected function calculateBetweenPositiveAndNegativeEquationErrors($lowRate, $highRate): float
+    protected function calculateBetweenValues($lowRate, $highRate): float
     {
         $rateToTry = ($lowRate + $highRate) / 2;
         $error = $this->calculateEquationErrorForRate($rateToTry);
@@ -125,9 +125,9 @@ class Calculator
         if (abs($error) <= static::FINANCE_PRECISION) {
             return $rateToTry;
         } elseif ($error < 0) {
-            return $this->calculateBetweenPositiveAndNegativeEquationErrors($lowRate, $rateToTry);
+            return $this->calculateBetweenValues($lowRate, $rateToTry);
         } else {
-            return $this->calculateBetweenPositiveAndNegativeEquationErrors($rateToTry, $highRate);
+            return $this->calculateBetweenValues($rateToTry, $highRate);
         }
     }
 
