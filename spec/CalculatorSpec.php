@@ -1240,7 +1240,7 @@ class CalculatorSpec extends ObjectBehavior
 
     function it_calculates_ec_example_43()
     {
-        $this->beConstructedWith(3000);
+        $this->beConstructedWith(30000);
         $this->addInstalment(150, -Instalment::DAYS_IN_YEAR);
         $this->addInstalment(450, 0);
         $this->addRegularInstalments(
