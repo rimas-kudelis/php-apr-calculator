@@ -88,7 +88,7 @@ class Calculator
         float $amount,
         float $daysAfterFirstAdvance,
         int $type = Instalment::TYPE_PAYMENT
-    ): void {
+    ): self {
         $instalment = new Instalment($amount, $daysAfterFirstAdvance);
 
         if ($type === Instalment::TYPE_PAYMENT) {
@@ -98,6 +98,8 @@ class Calculator
         } else {
             throw new DomainException('Invalid instalment type!');
         }
+
+        return $this;
     }
 
     public function addRegularInstalments(
@@ -106,7 +108,7 @@ class Calculator
         float $daysBetweenAdvances,
         float $daysAfterFirstAdvance = 0,
         int $type = Instalment::TYPE_PAYMENT
-    ): void {
+    ): self {
         if ($daysAfterFirstAdvance === 0.0) {
             $daysAfterFirstAdvance = $daysBetweenAdvances;
         }
@@ -114,6 +116,8 @@ class Calculator
         for ($i = 0; $i < $numberOfInstalments; $i++) {
             $this->addInstalment($amount, $daysAfterFirstAdvance + $daysBetweenAdvances * $i);
         }
+
+        return $this;
     }
 
     protected function calculateBetweenValues(float $lowRate, float $highRate): float
