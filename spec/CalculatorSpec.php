@@ -198,9 +198,9 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0)
-            ->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
+            ->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY)
 
-        $this->calculate()->shouldReturn(6.4);
+            ->calculate()->shouldReturn(6.4);
     }
 
     function it_calculates_ec_calculator_example_2_case_1()
