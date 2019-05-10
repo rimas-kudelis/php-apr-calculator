@@ -45,6 +45,11 @@ class Calculator
         $this->advances[] = new Instalment($firstAdvance, 0);
     }
 
+    public static function create(float $firstAdvance): self
+    {
+        return new static($firstAdvance);
+    }
+
     public function calculateForSinglePayment(float $payment, int $daysAfterAdvance, int $round = self::DEFAULT_PRECISION): float
     {
         return round(

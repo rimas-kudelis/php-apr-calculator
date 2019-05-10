@@ -15,16 +15,21 @@ class CalculatorSpec extends ObjectBehavior
         $this->beConstructedWith(100); // Amount of first advance
     }
 
-    /**
-     * The examples below are ported directly from the C# library tests.
-     *
-     * @return void
-     */
     function it_is_initializable()
     {
         $this->shouldHaveType(Calculator::class);
     }
 
+    function it_is_initializable_via_static_class_method()
+    {
+        self::create(100)->shouldHaveType(Calculator::class);
+    }
+
+    /**
+     * The examples below are ported directly from the C# library tests.
+     *
+     * @return void
+     */
     function it_returns_one_percent_for_one_payment_one_year_after_the_advance()
     {
         $this->addInstalment(101, 365);
@@ -196,8 +201,8 @@ class CalculatorSpec extends ObjectBehavior
 
     function it_calculates_ec_calculator_example_1_with_chained_calls()
     {
-        $this->beConstructedWith(200000);
-        $this->addInstalment(4000, 0)
+        self::create(200000)
+            ->addInstalment(4000, 0)
             ->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY)
 
             ->calculate()->shouldReturn(6.4);
