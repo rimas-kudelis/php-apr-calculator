@@ -59,7 +59,7 @@ class Calculator
         return new static($firstAdvance);
     }
 
-    public function calculateForSinglePayment(float $payment, int $daysAfterAdvance, int $round = self::DEFAULT_PRECISION): float
+    public function calculateForSinglePayment(float $payment, float $daysAfterAdvance, int $round = self::DEFAULT_PRECISION): float
     {
         return round(
             (
