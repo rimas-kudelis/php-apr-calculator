@@ -189,6 +189,24 @@ class CalculatorSpec extends ObjectBehavior
         $this->calculate()->shouldReturn(6.4);
     }
 
+    function it_calculates_ec_calculator_example_1_with_a_lower_guess()
+    {
+        $this->beConstructedWith(200000);
+        $this->addPayment(4000, 0);
+        $this->addRegularPayments(1432.86, 240, Calculator::FREQUENCY_MONTHLY);
+
+        $this->calculate(4)->shouldReturn(6.4);
+    }
+
+    function it_calculates_ec_calculator_example_1_with_a_higher_guess()
+    {
+        $this->beConstructedWith(200000);
+        $this->addPayment(4000, 0);
+        $this->addRegularPayments(1432.86, 240, Calculator::FREQUENCY_MONTHLY);
+
+        $this->calculate(8)->shouldReturn(6.4);
+    }
+
     function it_calculates_ec_calculator_example_1_with_arbitrary_precision()
     {
         $this->beConstructedWith(200000);
