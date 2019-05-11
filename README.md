@@ -20,8 +20,8 @@ Naturally, you can download the archive of this repository if you don’t want t
 Then in your code, create an instance of the Calculator class by passing the amount of the first advance to its constructor:
 ```php
 use RQ\APRCalculator\Calculator;
-use RQ\APRCalculator\Instalment; // Note: the Instalment class currently houses some useful constants,
-                                 // but I’m considering moving these to the Calculator class instead.
+
+...
 
 $calculator = new Calculator(200000);
 ```
