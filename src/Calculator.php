@@ -195,17 +195,17 @@ class Calculator
         $advancesComponent = $paymentsComponent = 0;
 
         foreach ($this->advances as $advance) {
-            $advancesComponent += self::calculateSummand($advance, $rate);
+            $advancesComponent += self::calculateOperandForInstalmentAndRate($advance, $rate);
         }
 
         foreach ($this->payments as $payment) {
-            $paymentsComponent += self::calculateSummand($payment, $rate);
+            $paymentsComponent += self::calculateOperandForInstalmentAndRate($payment, $rate);
         }
 
         return $paymentsComponent - $advancesComponent;
     }
 
-    protected static function calculateSummand(Instalment $instalment, float $rate): float
+    protected static function calculateOperandForInstalmentAndRate(Instalment $instalment, float $rate): float
     {
         $divisor = pow(1 + $rate, self::daysToYears($instalment->getDaysAfterFirstAdvance()));
         $sum = $instalment->getAmount() / $divisor;
