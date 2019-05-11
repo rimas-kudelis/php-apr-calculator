@@ -7,4 +7,4 @@ install:
   - composer install --prefer-source --no-interaction
 script:
   - vendor/bin/phpcs
-  - vendor/bin/phpspec run
+  - vendor/bin/phpspec run --format=dot
