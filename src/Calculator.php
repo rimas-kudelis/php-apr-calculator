@@ -30,6 +30,19 @@ use DomainException;
  */
 class Calculator
 {
+    const DAYS_IN_YEAR = 365.25;
+
+    const FREQUENCY_DAILY = 1;
+    const FREQUENCY_WEEKLY = 7;
+    const FREQUENCY_FORTNIGHTLY = 14;
+    const FREQUENCY_FOUR_WEEKLY = 28;
+    const FREQUENCY_MONTHLY = self::DAYS_IN_YEAR / 12;
+    const FREQUENCY_QUARTERLY = self::DAYS_IN_YEAR / 4;
+    const FREQUENCY_YEARLY = self::DAYS_IN_YEAR;
+
+    const INSTALMENT_TYPE_PAYMENT = 0;
+    const INSTALMENT_TYPE_ADVANCE = 1;
+
     const DEFAULT_PRECISION = 1;
     const INITIAL_GUESS_INCREMENT = 0.0001;
     const FINANCE_PRECISION = 0.0000001;
@@ -56,7 +69,7 @@ class Calculator
             (
                 pow(
                     $this->advances[0]->getAmount() / $payment,
-                    (-Instalment::DAYS_IN_YEAR / $daysAfterAdvance)
+                    (-self::DAYS_IN_YEAR / $daysAfterAdvance)
                 ) - 1
             ) * 100,
             $round
@@ -92,13 +105,13 @@ class Calculator
     public function addInstalment(
         float $amount,
         float $daysAfterFirstAdvance,
-        int $type = Instalment::TYPE_PAYMENT
+        int $type = self::INSTALMENT_TYPE_PAYMENT
     ): self {
         $instalment = new Instalment($amount, $daysAfterFirstAdvance);
 
-        if ($type === Instalment::TYPE_PAYMENT) {
+        if ($type === self::INSTALMENT_TYPE_PAYMENT) {
             $this->payments[] = $instalment;
-        } elseif ($type === Instalment::TYPE_ADVANCE) {
+        } elseif ($type === self::INSTALMENT_TYPE_ADVANCE) {
             $this->advances[] = $instalment;
         } else {
             throw new DomainException('Invalid instalment type!');
@@ -112,14 +125,14 @@ class Calculator
         float $numberOfInstalments,
         float $daysBetweenAdvances,
         float $daysAfterFirstAdvance = 0,
-        int $type = Instalment::TYPE_PAYMENT
+        int $type = self::INSTALMENT_TYPE_PAYMENT
     ): self {
         if ($daysAfterFirstAdvance === 0.0) {
             $daysAfterFirstAdvance = $daysBetweenAdvances;
         }
 
         for ($i = 0; $i < $numberOfInstalments; $i++) {
-            $this->addInstalment($amount, $daysAfterFirstAdvance + $daysBetweenAdvances * $i);
+            $this->addInstalment($amount, $daysAfterFirstAdvance + $daysBetweenAdvances * $i, $type);
         }
 
         return $this;
@@ -144,13 +157,26 @@ class Calculator
         $advancesComponent = $paymentsComponent = 0;
 
         foreach ($this->advances as $advance) {
-            $advancesComponent += $advance->calculate($rate);
+            $advancesComponent += self::calculateSummand($advance, $rate);
         }
 
         foreach ($this->payments as $payment) {
-            $paymentsComponent += $payment->calculate($rate);
+            $paymentsComponent += self::calculateSummand($payment, $rate);
         }
 
         return $paymentsComponent - $advancesComponent;
+    }
+
+    protected static function calculateSummand(Instalment $instalment, float $rate): float
+    {
+        $divisor = pow(1 + $rate, self::daysToYears($instalment->getDaysAfterFirstAdvance()));
+        $sum = $instalment->getAmount() / $divisor;
+
+        return $sum;
+    }
+
+    protected static function daysToYears(float $days): float
+    {
+        return $days / self::DAYS_IN_YEAR;
     }
 }

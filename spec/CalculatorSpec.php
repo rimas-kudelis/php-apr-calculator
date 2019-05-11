@@ -3,7 +3,6 @@
 namespace spec\RQ\APRCalculator;
 
 use RQ\APRCalculator\Calculator;
-use RQ\APRCalculator\Instalment;
 use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -67,7 +66,7 @@ class CalculatorSpec extends ObjectBehavior
     function it_calculates_cfa_personal_loan()
     {
         $this->beConstructedWith(10000);
-        $this->addRegularInstalments(222.44, 60, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(222.44, 60, Calculator::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(12.7);
     }
@@ -185,7 +184,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1432.86, 240, Calculator::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(6.4);
     }
@@ -194,7 +193,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1432.86, 240, Calculator::FREQUENCY_MONTHLY);
 
         $this->calculate(0, 6)->shouldReturn(6.434412);
     }
@@ -203,7 +202,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         self::create(200000)
             ->addInstalment(4000, 0)
-            ->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY)
+            ->addRegularInstalments(1432.86, 240, Calculator::FREQUENCY_MONTHLY)
 
             ->calculate()->shouldReturn(6.4);
     }
@@ -212,7 +211,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1433.57, 240, Instalment::FREQUENCY_MONTHLY, 3 + 31);
+        $this->addRegularInstalments(1433.57, 240, Calculator::FREQUENCY_MONTHLY, 3 + 31);
 
         $this->calculate()->shouldReturn(6.4);
     }
@@ -221,7 +220,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1433.56, 240, Instalment::FREQUENCY_MONTHLY, 3 + 31);
+        $this->addRegularInstalments(1433.56, 240, Calculator::FREQUENCY_MONTHLY, 3 + 31);
 
         $this->calculate()->shouldReturn(6.4);
     }
@@ -230,7 +229,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(16541.86, 20, Instalment::FREQUENCY_YEARLY, 3 + 31);
+        $this->addRegularInstalments(16541.86, 20, Calculator::FREQUENCY_YEARLY, 3 + 31);
 
         $this->calculate()->shouldReturn(6.3);
     }
@@ -239,7 +238,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1432.86 + round(200 / 12, 2), 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1432.86 + round(200 / 12, 2), 240, Calculator::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(6.6);
     }
@@ -248,7 +247,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1432.86 + round(200000 / 100 / 12, 2), 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1432.86 + round(200000 / 100 / 12, 2), 240, Calculator::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(7.9);
     }
@@ -257,7 +256,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1490.18, 240, Instalment::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1490.18, 240, Calculator::FREQUENCY_MONTHLY);
 
         $this->calculate()->shouldReturn(7.0);
     }
@@ -266,8 +265,8 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1432.86, 240, Instalment::FREQUENCY_MONTHLY);
-        $this->addInstalment(100, Instalment::DAYS_IN_YEAR * 20);
+        $this->addRegularInstalments(1432.86, 240, Calculator::FREQUENCY_MONTHLY);
+        $this->addInstalment(100, Calculator::DAYS_IN_YEAR * 20);
 
         $this->calculate()->shouldReturn(6.4);
     }
@@ -276,8 +275,8 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1199.10, 180, Instalment::FREQUENCY_MONTHLY);
-        $this->addInstalment(142097.69, 15 * Instalment::DAYS_IN_YEAR);
+        $this->addRegularInstalments(1199.10, 180, Calculator::FREQUENCY_MONTHLY);
+        $this->addInstalment(142097.69, 15 * Calculator::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(6.4);
     }
@@ -286,8 +285,8 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1166.67, 240, Instalment::FREQUENCY_MONTHLY);
-        $this->addInstalment(200000, 20 * Instalment::DAYS_IN_YEAR);
+        $this->addRegularInstalments(1166.67, 240, Calculator::FREQUENCY_MONTHLY);
+        $this->addInstalment(200000, 20 * Calculator::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(7.4);
     }
@@ -296,9 +295,9 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1166.67, 6, Instalment::FREQUENCY_MONTHLY);
-        $this->addRegularInstalments(1398.33, 234, Instalment::FREQUENCY_MONTHLY, 7 / 12 * Instalment::DAYS_IN_YEAR);
-        $this->addInstalment(200000, 20 * Instalment::DAYS_IN_YEAR);
+        $this->addRegularInstalments(1166.67, 6, Calculator::FREQUENCY_MONTHLY);
+        $this->addRegularInstalments(1398.33, 234, Calculator::FREQUENCY_MONTHLY, 7 / 12 * Calculator::DAYS_IN_YEAR);
+        $this->addInstalment(200000, 20 * Calculator::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(8.9);
     }
@@ -312,8 +311,8 @@ class CalculatorSpec extends ObjectBehavior
             $this->addRegularInstalments(
                 round($instalment, 2),
                 12,
-                Instalment::FREQUENCY_MONTHLY,
-                Instalment::DAYS_IN_YEAR / 12 + Instalment::DAYS_IN_YEAR * $year
+                Calculator::FREQUENCY_MONTHLY,
+                Calculator::DAYS_IN_YEAR / 12 + Calculator::DAYS_IN_YEAR * $year
             );
 
             $instalment = $instalment * 1.03;
@@ -333,8 +332,8 @@ class CalculatorSpec extends ObjectBehavior
                 // at pay time, not at calculation time.
                 round($instalment, 2),
                 12,
-                Instalment::FREQUENCY_MONTHLY,
-                Instalment::DAYS_IN_YEAR / 12 + Instalment::DAYS_IN_YEAR * $year
+                Calculator::FREQUENCY_MONTHLY,
+                Calculator::DAYS_IN_YEAR / 12 + Calculator::DAYS_IN_YEAR * $year
             );
             $instalment = $instalment * 0.97;
         }
@@ -346,8 +345,8 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addRegularInstalments(1500, 220, Instalment::FREQUENCY_MONTHLY);
-        $this->addInstalment(407.70, Instalment::DAYS_IN_YEAR / 12 * 221);
+        $this->addRegularInstalments(1500, 220, Calculator::FREQUENCY_MONTHLY);
+        $this->addInstalment(407.70, Calculator::DAYS_IN_YEAR / 12 * 221);
 
         $this->calculate()->shouldReturn(6.5);
     }
@@ -363,7 +362,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = round($owed * 0.06 / 12, 2);
             $this->addInstalment(
                 $repayment + $interest,
-                Instalment::DAYS_IN_YEAR / 12 * $month++
+                Calculator::DAYS_IN_YEAR / 12 * $month++
             );
 
             $owed -= $repayment;
@@ -384,7 +383,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = round($owed * 0.06 / 12, 2);
             $this->addInstalment(
                 $repayment + $interest,
-                Instalment::DAYS_IN_YEAR / 12 * ++$month
+                Calculator::DAYS_IN_YEAR / 12 * ++$month
             );
             $owed -= $repayment;
         }
@@ -404,7 +403,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * 0.06 / 12;
             $this->addInstalment(
                 round($repayment + $interest, 2),
-                Instalment::DAYS_IN_YEAR / 12 * ++$month
+                Calculator::DAYS_IN_YEAR / 12 * ++$month
             );
             $owed -= $repayment;
         }
@@ -426,7 +425,7 @@ class CalculatorSpec extends ObjectBehavior
             $repayment = min(max($owed * 0.02, 300), $owed);
             $this->addInstalment(
                 round($repayment, 2),
-                Instalment::DAYS_IN_YEAR / 12 * ++$month
+                Calculator::DAYS_IN_YEAR / 12 * ++$month
             );
             $owed -= $repayment;
         }
@@ -447,7 +446,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * 0.06 / 12;
             $this->addInstalment(
                 round($repayment + $interest, 2),
-                Instalment::DAYS_IN_YEAR / 12 * $month
+                Calculator::DAYS_IN_YEAR / 12 * $month
             );
             $owed -= $repayment;
         }
@@ -455,7 +454,7 @@ class CalculatorSpec extends ObjectBehavior
         $interest = $owed * 0.06 / 12;
         $this->addInstalment(
             round($owed + $interest, 2),
-            Instalment::DAYS_IN_YEAR / 12 * $month
+            Calculator::DAYS_IN_YEAR / 12 * $month
         );
 
         $this->calculate()->shouldReturn(6.8);
@@ -470,7 +469,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1429.01,
             240,
-            Instalment::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY,
             14
         );
 
@@ -486,8 +485,8 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1437.54,
             240,
-            Instalment::FREQUENCY_MONTHLY,
-            20 + Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY,
+            20 + Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(6.4);
@@ -508,7 +507,7 @@ class CalculatorSpec extends ObjectBehavior
             }
             $this->addInstalment(
                 $instalment,
-                Instalment::DAYS_IN_YEAR / 12 * $month
+                Calculator::DAYS_IN_YEAR / 12 * $month
             );
             $owed -= $principal;
         }
@@ -524,14 +523,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1319.91,
             24,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1423.41,
             216,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 25
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 25
         );
 
         $this->calculate()->shouldReturn(6.2);
@@ -545,14 +544,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1319.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1374.06,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         $this->calculate()->shouldReturn(5.9);
@@ -566,14 +565,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1319.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1530.61,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         $this->calculate()->shouldReturn(7.2);
@@ -587,14 +586,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1349.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1404.06,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         $this->calculate()->shouldReturn(6.1);
@@ -608,14 +607,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1349.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1515.81,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         $this->calculate()->shouldReturn(7.1);
@@ -629,14 +628,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1339.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1394.06,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         // NOTE: there seems to be a typo in the document
@@ -652,14 +651,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1339.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1550.61,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         $this->calculate()->shouldReturn(7.4);
@@ -673,7 +672,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1319.91,
             240,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(5.4);
@@ -687,14 +686,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1319.91,
             9,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1578.43,
             231,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 10
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 10
         );
 
         $this->calculate()->shouldReturn(7.6);
@@ -710,12 +709,12 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1319.91,
             60,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addInstalment(
             166909.73,
-            Instalment::DAYS_IN_YEAR * 5
+            Calculator::DAYS_IN_YEAR * 5
         );
 
         $this->calculate()->shouldReturn(5.6);
@@ -731,7 +730,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1660.94,
             180,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(6.2);
@@ -745,14 +744,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1660.94,
             6,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             1734.38,
             174,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 7
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 7
         );
 
         $this->calculate()->shouldReturn(6.9);
@@ -766,7 +765,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1217.93,
             240,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(6.4);
@@ -780,7 +779,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             round(1319.91 * 1.002, 2),
             240,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(5.4);
@@ -794,7 +793,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             round(1349.91 * 1.002, 2),
             240,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(5.7);
@@ -808,7 +807,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             169.62,
             60,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $owed = 30000;
@@ -817,7 +816,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -833,14 +832,14 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             169.62,
             6,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->addRegularInstalments(
             202.09,
             54,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 7
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 7
         );
 
         $owed = 30000;
@@ -850,7 +849,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.0839, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -870,7 +869,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -890,7 +889,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -899,7 +898,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.0839, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -919,15 +918,15 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
 
         $this->addInstalment(
             7500,
-            Instalment::FREQUENCY_MONTHLY * 3,
-            Instalment::TYPE_ADVANCE
+            Calculator::FREQUENCY_MONTHLY * 3,
+            Calculator::INSTALMENT_TYPE_ADVANCE
         );
 
         $owed += 7500;
@@ -937,15 +936,15 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
 
         $this->addInstalment(
             15000,
-            Instalment::FREQUENCY_MONTHLY * 6,
-            Instalment::TYPE_ADVANCE
+            Calculator::FREQUENCY_MONTHLY * 6,
+            Calculator::INSTALMENT_TYPE_ADVANCE
         );
 
         $owed += 15000;
@@ -955,7 +954,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -975,15 +974,15 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
 
         $this->addInstalment(
             7500,
-            Instalment::FREQUENCY_MONTHLY * 3,
-            Instalment::TYPE_ADVANCE
+            Calculator::FREQUENCY_MONTHLY * 3,
+            Calculator::INSTALMENT_TYPE_ADVANCE
         );
 
         $owed += 7500;
@@ -993,15 +992,15 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.07, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
 
         $this->addInstalment(
             15000,
-            Instalment::FREQUENCY_MONTHLY * 6,
-            Instalment::TYPE_ADVANCE
+            Calculator::FREQUENCY_MONTHLY * 6,
+            Calculator::INSTALMENT_TYPE_ADVANCE
         );
 
         $owed += 15000;
@@ -1011,7 +1010,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.0839, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -1033,7 +1032,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.0839, 1 / 12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -1053,15 +1052,15 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.075, 1/12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
 
         $this->addInstalment(
             1500,
-            Instalment::FREQUENCY_MONTHLY * 9,
-            Instalment::TYPE_ADVANCE
+            Calculator::FREQUENCY_MONTHLY * 9,
+            Calculator::INSTALMENT_TYPE_ADVANCE
         );
         $owed += 1500;
         $principal = $owed / 3;
@@ -1070,7 +1069,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.075, 1/12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -1082,8 +1081,8 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(3000);
         $this->addInstalment(60, 0);
-        $this->addInstalment(100, Instalment::FREQUENCY_MONTHLY * 3);
-        $this->addInstalment(3000, Instalment::DAYS_IN_YEAR);
+        $this->addInstalment(100, Calculator::FREQUENCY_MONTHLY * 3);
+        $this->addInstalment(3000, Calculator::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(5.6);
     }
@@ -1092,7 +1091,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(3000);
         $this->addInstalment(60, 0);
-        $this->addInstalment(25, Instalment::FREQUENCY_MONTHLY);
+        $this->addInstalment(25, Calculator::FREQUENCY_MONTHLY);
 
         $owed = 3000;
         $principal = $owed / 12;
@@ -1101,7 +1100,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.09, 1/12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -1113,7 +1112,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(1500);
         $this->addInstalment(30, 0);
-        $this->addInstalment(25, Instalment::FREQUENCY_MONTHLY);
+        $this->addInstalment(25, Calculator::FREQUENCY_MONTHLY);
 
         $owed = 1500;
         $principal = $owed / 12;
@@ -1122,7 +1121,7 @@ class CalculatorSpec extends ObjectBehavior
             $interest = $owed * (pow(1.09, 1/12) - 1);
             $this->addInstalment(
                 round($principal + $interest, 2),
-                Instalment::FREQUENCY_MONTHLY * $month
+                Calculator::FREQUENCY_MONTHLY * $month
             );
             $owed -= $principal;
         }
@@ -1137,9 +1136,9 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             24.12,
             3,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
-        $this->addInstalment(3000, Instalment::FREQUENCY_MONTHLY * 3);
+        $this->addInstalment(3000, Calculator::FREQUENCY_MONTHLY * 3);
 
         $this->calculate()->shouldReturn(19.4);
     }
@@ -1150,7 +1149,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->addInstalment(60, 0);
         $this->addInstalment(
             3132.09,
-            Instalment::FREQUENCY_MONTHLY * 6
+            Calculator::FREQUENCY_MONTHLY * 6
         );
 
         $this->calculate()->shouldReturn(13.5);
@@ -1160,7 +1159,7 @@ class CalculatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
-        $this->addInstalment(207618.17, Instalment::FREQUENCY_MONTHLY * 6);
+        $this->addInstalment(207618.17, Calculator::FREQUENCY_MONTHLY * 6);
 
         $this->calculate()->shouldReturn(12.2);
     }
@@ -1170,7 +1169,7 @@ class CalculatorSpec extends ObjectBehavior
         $this->beConstructedWith(200000);
         $this->addInstalment(4000, 0);
         $this->addInstalment(7500, 0);
-        $this->addInstalment(200000, Instalment::FREQUENCY_MONTHLY * 6);
+        $this->addInstalment(200000, Calculator::FREQUENCY_MONTHLY * 6);
 
         $this->calculate()->shouldReturn(12.6);
     }
@@ -1182,9 +1181,9 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1250,
             12,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
-        $this->addInstalment(200000, Instalment::DAYS_IN_YEAR);
+        $this->addInstalment(200000, Calculator::DAYS_IN_YEAR);
 
         $this->calculate()->shouldReturn(10.0);
     }
@@ -1192,12 +1191,12 @@ class CalculatorSpec extends ObjectBehavior
     function it_calculates_ec_example_43()
     {
         $this->beConstructedWith(30000);
-        $this->addInstalment(150, -Instalment::DAYS_IN_YEAR);
+        $this->addInstalment(150, -Calculator::DAYS_IN_YEAR);
         $this->addInstalment(450, 0);
         $this->addRegularInstalments(
             356.11,
             120,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
 
         $this->calculate()->shouldReturn(8.3);
@@ -1210,15 +1209,15 @@ class CalculatorSpec extends ObjectBehavior
         $this->addRegularInstalments(
             1111.11,
             60,
-            Instalment::FREQUENCY_MONTHLY
+            Calculator::FREQUENCY_MONTHLY
         );
         $this->addRegularInstalments(
             1349.94,
             120,
-            Instalment::FREQUENCY_MONTHLY,
-            Instalment::FREQUENCY_MONTHLY * 61
+            Calculator::FREQUENCY_MONTHLY,
+            Calculator::FREQUENCY_MONTHLY * 61
         );
-        $this->addInstalment(32075.08, Instalment::FREQUENCY_MONTHLY * 180);
+        $this->addInstalment(32075.08, Calculator::FREQUENCY_MONTHLY * 180);
 
         $this->calculate()->shouldReturn(3.5);
     }

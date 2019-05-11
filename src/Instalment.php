@@ -28,19 +28,6 @@ namespace RQ\APRCalculator;
  */
 class Instalment
 {
-    const DAYS_IN_YEAR = 365.25;
-
-    const FREQUENCY_DAILY = 1;
-    const FREQUENCY_WEEKLY = 7;
-    const FREQUENCY_FORTNIGHTLY = 14;
-    const FREQUENCY_FOUR_WEEKLY = 28;
-    const FREQUENCY_MONTHLY = self::DAYS_IN_YEAR / 12;
-    const FREQUENCY_QUARTERLY = self::DAYS_IN_YEAR / 4;
-    const FREQUENCY_YEARLY = self::DAYS_IN_YEAR;
-
-    const TYPE_PAYMENT = 0;
-    const TYPE_ADVANCE = 1;
-
     /** @var float */
     protected $amount;
 
@@ -51,19 +38,6 @@ class Instalment
     {
         $this->amount = $amount;
         $this->daysAfterFirstAdvance = $daysAfterFirstAdvance;
-    }
-
-    public function calculate(float $apr): float
-    {
-        $divisor = pow(1 + $apr, self::daysToYears($this->daysAfterFirstAdvance));
-        $sum = $this->amount / $divisor;
-
-        return $sum;
-    }
-
-    public static function daysToYears(float $days): float
-    {
-        return $days / self::DAYS_IN_YEAR;
     }
 
     public function getAmount(): float
