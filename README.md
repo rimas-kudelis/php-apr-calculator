@@ -1,6 +1,6 @@
 # Average percentage rate of charge calculator for PHP
 
-![Build status](https://api.travis-ci.org/rimas-kudelis/php-apr-calculator.svg?branch=master)
+[![Build status](https://api.travis-ci.org/rimas-kudelis/php-apr-calculator.svg?branch=master)](https://travis-ci.org/rimas-kudelis/php-apr-calculator)
 
 This library is an average percentage rate of charge (APR or APRC) calculator compliant* with European Commission [Directive 2014/17/EU (‘Mortgage Credit Directive’, MCD)](https://eur-lex.europa.eu/eli/dir/2014/17/oj) and European Commission [Directive 2008/48/EC (‘Consumer Credit Directive’, CCD)](https://eur-lex.europa.eu/eli/dir/2008/48/oj).
 
