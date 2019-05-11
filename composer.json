@@ -16,7 +16,9 @@
             "email": "rimas@kudelis.lt"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.0"
+    },
     "require-dev": {
         "phpspec/phpspec": "^5.1"
     },
