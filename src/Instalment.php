@@ -3,16 +3,6 @@
 namespace RQ\APRCalculator;
 
 /**
- * APR Calculator : Example of FCA Compliant APR Calculator.
- *                  Complies with FCA MBOC 10.3 Formular for calculating APR
- *                  http://fshandbook.info/FS/html/FCA/MCOB/10/3
- *
- * Copyright (C) 2014 Stephen Haunts
- * http://www.stephenhaunts.com
- *
- * PHP port Copyright (C) 2019 Rimas Kudelis
- * https://github.com/rimas-kudelis
- *
  * This file is part of APR Calculator.
  *
  * APR Calculator is free software: you can redistribute it and/or modify it under the terms of the
@@ -24,7 +14,13 @@ namespace RQ\APRCalculator;
  *
  * See the GNU General Public License for more details <http://www.gnu.org/licenses/>.
  *
- * Authors: Stephen Haunts, Graham Johnson, Rimas Kudelis
+ * @copyright © 2014 Stephen Haunts
+ * @copyright © 2019 Rimas Kudelis
+ * @author Stephen Haunts http://www.stephenhaunts.com
+ * @author Graham Johnson
+ * @author Rimas Kudelis https://rimas.kudelis.lt
+ * @license http://www.gnu.org/licenses/ GNU General Public License, version 2 or later
+ * @link https://github.com/rimas-kudelis/php-apr-calculator
  */
 class Instalment
 {
