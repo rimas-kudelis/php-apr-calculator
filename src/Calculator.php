@@ -102,17 +102,25 @@ class Calculator
         return round($rateToTry * 100, $round);
     }
 
+    public function addAdvance(float $amount, float $daysAfterFirstAdvance): self
+    {
+        return $this->addInstalment($amount, $daysAfterFirstAdvance, self::INSTALMENT_TYPE_ADVANCE);
+    }
+
+    public function addPayment(float $amount, float $daysAfterFirstAdvance): self
+    {
+        return $this->addInstalment($amount, $daysAfterFirstAdvance, self::INSTALMENT_TYPE_PAYMENT);
+    }
+
     public function addInstalment(
         float $amount,
         float $daysAfterFirstAdvance,
         int $type = self::INSTALMENT_TYPE_PAYMENT
     ): self {
-        $instalment = new Instalment($amount, $daysAfterFirstAdvance);
-
-        if ($type === self::INSTALMENT_TYPE_PAYMENT) {
-            $this->payments[] = $instalment;
-        } elseif ($type === self::INSTALMENT_TYPE_ADVANCE) {
-            $this->advances[] = $instalment;
+        if ($type === self::INSTALMENT_TYPE_ADVANCE) {
+            $this->advances[] = new Instalment($amount, $daysAfterFirstAdvance);
+        } elseif ($type === self::INSTALMENT_TYPE_PAYMENT) {
+            $this->payments[] = new Instalment($amount, $daysAfterFirstAdvance);
         } else {
             throw new DomainException('Invalid instalment type!');
         }
@@ -120,19 +128,49 @@ class Calculator
         return $this;
     }
 
+    public function addRegularAdvances(
+        float $amount,
+        float $numberOfAdvances,
+        float $daysBetweenAdvances,
+        float $daysAfterFirstAdvance = 0
+    ): self {
+        return $this->addRegularInstalments(
+            $amount,
+            $numberOfAdvances,
+            $daysBetweenAdvances,
+            $daysAfterFirstAdvance,
+            self::INSTALMENT_TYPE_ADVANCE
+        );
+    }
+
+    public function addRegularPayments(
+        float $amount,
+        float $numberOfPayments,
+        float $daysBetweenPayments,
+        float $daysAfterFirstAdvance = 0
+    ): self {
+        return $this->addRegularInstalments(
+            $amount,
+            $numberOfPayments,
+            $daysBetweenPayments,
+            $daysAfterFirstAdvance,
+            self::INSTALMENT_TYPE_PAYMENT
+        );
+    }
+
     public function addRegularInstalments(
         float $amount,
         float $numberOfInstalments,
-        float $daysBetweenAdvances,
+        float $daysBetweenInstalments,
         float $daysAfterFirstAdvance = 0,
         int $type = self::INSTALMENT_TYPE_PAYMENT
     ): self {
         if ($daysAfterFirstAdvance === 0.0) {
-            $daysAfterFirstAdvance = $daysBetweenAdvances;
+            $daysAfterFirstAdvance = $daysBetweenInstalments;
         }
 
         for ($i = 0; $i < $numberOfInstalments; $i++) {
-            $this->addInstalment($amount, $daysAfterFirstAdvance + $daysBetweenAdvances * $i, $type);
+            $this->addInstalment($amount, $daysAfterFirstAdvance + $daysBetweenInstalments * $i, $type);
         }
 
         return $this;
