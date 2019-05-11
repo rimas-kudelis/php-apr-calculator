@@ -6,4 +6,5 @@ php:
 install:
   - composer install --prefer-source --no-interaction
 script:
-  - vendor/bin/phpspec run --format=dot
+  - vendor/bin/phpcs
+  - vendor/bin/phpspec run
