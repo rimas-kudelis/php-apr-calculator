@@ -44,7 +44,7 @@ A series of regular identical instalments may be added like this:
 // $calculator->addRegularPayments(float $amount, float $numberOfPayments, float $daysBetweenPayments, float $daysAfterFirstAdvance = 0): self
 // $calculator->aaddRegularInstalments(float $amount, float $numberOfInstalments, float $daysBetweenInstalments, float $daysAfterFirstAdvance = 0, int $type = Calculator::TYPE_PAYMENT): self
 $calculator->addRegularAdvances(600, 12, Calculator::FREQUENCY_MONTHLY);
-$calculator->addRegularInstalments(600, 12, Calculator::FREQUENCY_MONTHLY);
+$calculator->addRegularPayments(600, 12, Calculator::FREQUENCY_MONTHLY);
 $calculator->addRegularInstalments(600, 12, Calculator::FREQUENCY_MONTHLY);
 ```
 
