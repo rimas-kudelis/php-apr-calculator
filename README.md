@@ -8,7 +8,7 @@ The APR is essentially how much your borrowing will cost over the period of an a
 
 The code and logic was initially ported from a [similar C# library](https://github.com/stephenhaunts/UK-APR-Calculator), which claims compliance with the British Financial Conduct Authority (FCA) regulations, particularly the FCA [MBOC 10.3 Formular for calculating APR](https://www.handbook.fca.org.uk/handbook/MCOB/10/3.html). I believe that compliance with this regulation, as well as with [MCOB 10A.2 Formular for calculating APRC](https://www.handbook.fca.org.uk/handbook/MCOB/10A/2.html), is also safe to assume.
 
-More information about the original library, as well as some examples of its usage, are available at https://stephenhaunts.com/2013/05/22/how-to-calculate-annual-percentage-rates-apr/.
+More information about the original library, as well as some examples of its usage, are available in [its author's archived weblog entry](https://web.archive.org/web/20210623190649/https://stephenhaunts.com/2013/05/22/how-to-calculate-annual-percentage-rates-apr/).
 
 ## How to use
 Install the library using composer:
