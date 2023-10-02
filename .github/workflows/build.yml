@@ -1,0 +1,64 @@
+name: Build
+
+on:
+  push:
+    paths-ignore:
+      - "*.md"
+  pull_request:
+    paths-ignore:
+      - "*.md"
+  release:
+    types: [created]
+  schedule:
+    -
+      cron: "0 1 * * 6" # Run at 1am every Saturday
+  workflow_dispatch: ~
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+
+    name: "PHP ${{ matrix.php }}"
+
+    timeout-minutes: 50
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["7.4", "8.1", "8.2"]
+
+    steps:
+      -
+        uses: actions/checkout@v3
+
+      -
+        name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php }}"
+          coverage: none
+
+      -
+        name: Validate composer.json
+        run: composer validate --ansi --strict
+
+      -
+        name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json **/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-
+
+      -
+        name: Install PHP dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      -
+        name: Check coding standard
+        run: vendor/bin/phpcs --colors
+
+      -
+        name: Run PHPSpec
+        run: vendor/bin/phpspec run --ansi -f progress --no-interaction
