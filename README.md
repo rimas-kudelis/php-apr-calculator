@@ -1,5 +1,7 @@
 # Average percentage rate of charge calculator for PHP
 
+**NOTE: I'm moving all my repositories to Codeberg, including this one, and I have already changed package source URL in Packagist on March 8th, 2025. If you're having issues installing the package after the change, please let me know ASAP so I can adjust my plans accordingly (i.e., cancel or delay the migration, or reconfigure this repository as a mirror instead of overwriting and archiving it).**
+
 ![Build status](https://github.com/rimas-kudelis/php-apr-calculator/actions/workflows/build.yml/badge.svg)
 
 This library is an average percentage rate of charge (APR or APRC) calculator compliant* with European Commission [Directive 2014/17/EU (‘Mortgage Credit Directive’, MCD)](https://eur-lex.europa.eu/eli/dir/2014/17/oj) and European Commission [Directive 2008/48/EC (‘Consumer Credit Directive’, CCD)](https://eur-lex.europa.eu/eli/dir/2008/48/oj).
