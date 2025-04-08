@@ -1,6 +1,6 @@
 # Average percentage rate of charge calculator for PHP
 
-**NOTE: I'm moving all my repositories to Codeberg, including this one, and I have already changed package source URL in Packagist on March 8th, 2025. If you're having issues installing the package after the change, please let me know ASAP so I can adjust my plans accordingly (i.e., cancel or delay the migration, or reconfigure this repository as a mirror instead of overwriting and archiving it).**
+**NOTE: This repository has been [moved to Codeberg](https://codeberg.org/rimas/php-apr-calculator/).**
 
 ![Build status](https://github.com/rimas-kudelis/php-apr-calculator/actions/workflows/build.yml/badge.svg)
 
